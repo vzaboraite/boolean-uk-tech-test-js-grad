@@ -29,28 +29,10 @@ The results should have this structure:
  *  greater than 10.x.x
  */
 
-const fetch = require('node-fetch');
+const getPackages = require('../utils/npm-api');
 
 module.exports = async function countMajorVersionsAbove10() {
-  const fetchUrl = 'http://ambush-api.inyourarea.co.uk/ambush/intercept';
-
-  const fetchBody = {
-    url: 'https://api.npms.io/v2/search/suggestions?q=react',
-    method: 'GET',
-    return_payload: true,
-  };
-
-  const fetchOptions = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(fetchBody),
-  };
-
-  const res = await fetch(fetchUrl, fetchOptions);
-  const data = await res.json();
-  const givenPackages = data.content.map(item => item.package);
+  const givenPackages = await getPackages();
 
   const majorVersionsAbove10 = givenPackages.filter(item => {
     const splittedVersionNumbers = item.version.split('.');
