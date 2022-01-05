@@ -39,8 +39,34 @@ The results should have this structure:
  * be in alphabetical order.
  */
 
-module.exports = async function organiseMaintainers() {
-  // TODO
+const getPackages = require('../utils/npm-api');
 
-  return maintainers
+module.exports = async function organiseMaintainers() {
+  const givenPackages = await getPackages();
+
+  const maintainers = [];
+
+  givenPackages.forEach(item => {
+    const packageName = item.name;
+
+    item.maintainers.forEach(maintainer => {
+      const foundMaintainer = maintainers.find(
+        entry => entry.username === maintainer.username,
+      );
+
+      if (foundMaintainer) {
+        foundMaintainer.packageNames.push(packageName);
+      } else {
+        maintainers.push({
+          username: maintainer.username,
+          packageNames: [packageName],
+        });
+      }
+    });
+  });
+
+  maintainers.sort((a, b) => a.username.localeCompare(b.username));
+  maintainers.forEach(entry => entry.packageNames.sort());
+
+  return maintainers;
 };
