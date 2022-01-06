@@ -29,7 +29,7 @@ The results should have this structure:
  *  greater than 10.x.x
  */
 
-const getPackages = require('../utils/npms-api');
+const getPackages = require('../utils/npms-api-axios');
 
 module.exports = async function countMajorVersionsAbove10() {
   const givenPackages = await getPackages();
