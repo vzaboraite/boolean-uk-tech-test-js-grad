@@ -39,7 +39,7 @@ The results should have this structure:
  * be in alphabetical order.
  */
 
-const getPackages = require('../utils/npm-api');
+const getPackages = require('../utils/npms-api');
 
 module.exports = async function organiseMaintainers() {
   const givenPackages = await getPackages();

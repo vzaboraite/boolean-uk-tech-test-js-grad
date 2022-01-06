@@ -27,7 +27,7 @@ The results should have this structure:
  *  With the results from this request, inside "content", return
  *  the "name" of the package that has the oldest "date" value
  */
-const getPackages = require('../utils/npm-api');
+const getPackages = require('../utils/npms-api');
 
 module.exports = async function oldestPackageName() {
   const givenPackages = await getPackages();
